@@ -1,14 +1,16 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Service.extend({
+  // overridden in app extension
+  config: null,
   pending: null,
   init(){
     this._super(...arguments);
     this.set('pending', []);
   },
   trackConversion(id, label, customParams = null) {
-    if (config.googleAdwordsRemarketing && config.googleAdwordsRemarketing.enabled) {
+    let conf = this.get('config.googleAdwordsRemarketing');
+    if ( conf && conf.enabled) {
       let payload = {
         google_conversion_id: id,
         google_conversion_label: label,
