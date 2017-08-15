@@ -1,6 +1,29 @@
 # ember-google-adwords-remarketing
 
-This README outlines the details of collaborating on this Ember addon.
+Really simple add on for integrating (https://developers.google.com/adwords-remarketing-tag/asynchronous/)[Adwords Remarketing] in ember.
+
+This addon exposes a service called `conversion`.
+
+You can use the `trackConversion(id, label, customParams)` function to record conversions.
+
+Example:
+
+```
+import Ember from 'ember';
+
+export default Ember.Route.extend({
+  conversion: Ember.service.inject(),
+  actions: {
+    onThingDone(){
+    
+      this.get('conversion').trackConversion(123123, 'lkjlkjlkj');
+      
+    }
+  }
+});
+```
+
+If for some reason the google script doesn't download, we queue requests until it does.
 
 ## Installation
 
@@ -8,19 +31,17 @@ This README outlines the details of collaborating on this Ember addon.
 * `cd ember-google-adwords-remarketing`
 * `npm install`
 
-## Running
+## Configuration
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+In `config/environment.js`:
 
-## Running Tests
+```
+module.exports = function(environment) {
+  let ENV = {
+    ...
+    googleAdwordsRemarketing: {
+      enabled: true
+    },
+   ... 
+```
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
