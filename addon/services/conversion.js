@@ -21,16 +21,20 @@ export default Ember.Service.extend({
       if (typeof(window.google_trackConversion) === "function") {
         // clear pending
         this._evacuatePending();
-        window.google_trackConversion(payload);
+        this._send(payload);
       } else {
         this.get('pending').pushObject(payload)
       }
     }
   },
+  _send(p){
+    window.google_trackConversion(p);
+    Ember.Logger.debug('adwordsRemarketing: trackConversion sent');
+  },
   _evacuatePending(){
     if (this.get('pending.length')) {
       this.get('pending').forEach((p) => {
-        window.google_trackConversion(p);
+        this._send(p);
       });
       this.get('pending').clear();
     }
