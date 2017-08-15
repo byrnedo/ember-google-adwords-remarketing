@@ -1,6 +1,6 @@
 # ember-google-adwords-remarketing
 
-Really simple add on for integrating (https://developers.google.com/adwords-remarketing-tag/asynchronous/)[Adwords Remarketing] in ember.
+Really simple add on for integrating [Adwords Remarketing](https://developers.google.com/adwords-remarketing-tag/asynchronous/) in ember.
 
 This addon exposes a service called `conversion`.
 
