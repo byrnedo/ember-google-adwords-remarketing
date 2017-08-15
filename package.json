@@ -1,6 +1,6 @@
 {
   "name": "ember-google-adwords-remarketing",
-  "version": "",
+  "version": "0.0.3",
   "description": "Google adwords remarketing support.",
   "keywords": [
     "ember-addon", "google", "adwords", "remarketing"
