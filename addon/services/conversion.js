@@ -8,14 +8,14 @@ export default Ember.Service.extend({
     this._super(...arguments);
     this.set('pending', []);
   },
-  trackConversion(id, label, customParams = null) {
+  trackConversion(id, label, customParams = null, remarketingOnly = true) {
     let conf = this.get('config.googleAdwordsRemarketing');
     if ( conf && conf.enabled) {
       let payload = {
         google_conversion_id: id,
         google_conversion_label: label,
         google_custom_params: customParams,
-        google_remarketing_only: true
+        google_remarketing_only: remarketingOnly
       };
       //waiting for script to load
       if (typeof(window.google_trackConversion) === "function") {
