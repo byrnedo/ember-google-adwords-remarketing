@@ -12,7 +12,7 @@ Example:
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  conversion: Ember.service.inject(),
+  conversion: Ember.inject.service(),
   actions: {
     onThingDone(){
     
