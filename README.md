@@ -4,11 +4,13 @@ Really simple add on for integrating [Adwords Remarketing](https://developers.go
 
 This addon exposes a service called `conversion`.
 
-You can use the `trackConversion(id, label, customParams)` function to record conversions.
+You can use the `trackEvent` function to record conversions.
+
+NOTE: this is using the new `gtag` script from google. See [Changes to the Website Conversion Tracker Tag](https://support.google.com/adwords/answer/7548399?hl=en).
 
 Example:
 
-```
+```javascript
 import Ember from 'ember';
 
 export default Ember.Route.extend({
@@ -16,12 +18,17 @@ export default Ember.Route.extend({
   actions: {
     onThingDone(){
     
-      this.get('conversion').trackConversion(123123, 'lkjlkjlkj');
+      this.get('conversion').trackEvent('conversion', 'AW-123456', {value: 100});
       
     }
   }
 });
 ```
+
+Methods:
+
+`trackEvent` equates to `gtag('event'...)`
+`setConfig` equates to `gtag('config'...)`
 
 If for some reason the google script doesn't download, we queue requests until it does.
 
@@ -35,12 +42,15 @@ If for some reason the google script doesn't download, we queue requests until i
 
 In `config/environment.js`:
 
-```
+```javascript
 module.exports = function(environment) {
   let ENV = {
     ...
     googleAdwordsRemarketing: {
-      enabled: true
+      enabled: true // required
+      id: 'AW-123456', // required
+      conversionLinker: false, // optional
+      sendPageView: true // optional
     },
    ... 
 ```

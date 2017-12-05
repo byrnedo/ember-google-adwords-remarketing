@@ -8,8 +8,9 @@ module.exports = {
     if (type === 'head') {
       let opts = config.googleAdwordsRemarketing;
       if (opts && opts.enabled) {
-        var scriptSrc = "//www.googleadservices.com/pagead/conversion_async.js";
-        content = '<script type="text/javascript" src="'+scriptSrc+'"></script>';
+        let convId = opts.id || 'AW-GOOGLE_CONVERSION_ID';
+        let scriptSrc = 'https://www.googletagmanager.com/gtag/js?id=' + convId;
+        content = '<script async src="'+scriptSrc+'"></script>\n';
       }
     }
 

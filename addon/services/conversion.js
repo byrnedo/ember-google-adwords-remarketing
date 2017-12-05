@@ -1,42 +1,42 @@
 import Ember from 'ember';
 
+window.dataLayer = window.dataLayer || [];
+
+window.gtag = function(){datalayer.push(arguments)};
+
 export default Ember.Service.extend({
   // overridden in app extension
   config: null,
   pending: null,
-  init(){
+  init() {
     this._super(...arguments);
     this.set('pending', []);
-  },
-  trackConversion(id, label, customParams = null, remarketingOnly = true) {
+
     let conf = this.get('config.googleAdwordsRemarketing');
-    if ( conf && conf.enabled) {
-      let payload = {
-        google_conversion_id: id,
-        google_conversion_label: label,
-        google_custom_params: customParams,
-        google_remarketing_only: remarketingOnly
-      };
-      //waiting for script to load
-      if (typeof(window.google_trackConversion) === "function") {
-        // clear pending
-        this._evacuatePending();
-        this._send(payload);
-      } else {
-        this.get('pending').pushObject(payload)
-      }
+    gtag('js', new Date());
+    let opts = {};
+    if (conf.conversionLinker)  {
+      opts.conversion_linker = conf.conversionLinker;
     }
-  },
-  _send(p){
-    window.google_trackConversion(p);
-    Ember.Logger.debug('adwordsRemarketing: trackConversion sent');
-  },
-  _evacuatePending(){
-    if (this.get('pending.length')) {
-      this.get('pending').forEach((p) => {
-        this._send(p);
-      });
-      this.get('pending').clear();
+
+    if (conf.sendPageView) {
+      opts.send_page_view = conf.sendPageView;
     }
-  }
+
+    window.gtag('config', conf.id, opts);
+  },
+
+  setConfig(id, opts) {
+    window.gtag('config', id, opts)
+  },
+
+  trackEvent(name, sendTo, extraAttrs) {
+    let conf = this.get('config.googleAdwordsRemarketing');
+    if (conf && conf.enabled) {
+      let payload = extraAttrs || {};
+      payload.send_to = sendTo;
+      window.gtag('event', name, payload)
+    }
+
+  },
 });
