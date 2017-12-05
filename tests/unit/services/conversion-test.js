@@ -7,6 +7,11 @@ moduleFor('service:conversion', 'Unit | Service | conversion', {
 
 // Replace this with your real tests.
 test('it exists', function(assert) {
-  let service = this.subject();
+  let config = {
+    googleAdwordsRemarketing:{id: 'test', enabled: false}
+  };
+  let service = this.subject({config});
+
+  service.trackEvent('conversion', 'AW-123123', {value: 100});
   assert.ok(service);
 });

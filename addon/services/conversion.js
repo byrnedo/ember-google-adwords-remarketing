@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 window.dataLayer = window.dataLayer || [];
 
-window.gtag = function(){datalayer.push(arguments)};
+window.gtag = function(){window.dataLayer.push(arguments)};
 
 export default Ember.Service.extend({
   // overridden in app extension
@@ -12,8 +12,10 @@ export default Ember.Service.extend({
     this._super(...arguments);
     this.set('pending', []);
 
-    let conf = this.get('config.googleAdwordsRemarketing');
-    gtag('js', new Date());
+    Ember.assert('Must set `googleAdwordsRemarketing` object in config/environment.js', Ember.get(this,'config.googleAdwordsRemarketing'));
+
+    let conf = Ember.get(this, 'config.googleAdwordsRemarketing');
+    window.gtag('js', new Date());
     let opts = {};
     if (conf.conversionLinker)  {
       opts.conversion_linker = conf.conversionLinker;
@@ -31,12 +33,8 @@ export default Ember.Service.extend({
   },
 
   trackEvent(name, sendTo, extraAttrs) {
-    let conf = this.get('config.googleAdwordsRemarketing');
-    if (conf && conf.enabled) {
-      let payload = extraAttrs || {};
-      payload.send_to = sendTo;
-      window.gtag('event', name, payload)
-    }
-
+    let payload = extraAttrs || {};
+    payload.send_to = sendTo;
+    window.gtag('event', name, payload)
   },
 });
