@@ -33,7 +33,7 @@ export default Ember.Service.extend({
   },
 
   getDataLayer(){
-    return window.dataLayer();
+    return window.dataLayer;
   },
 
   trackEvent(name, sendTo, extraAttrs) {
