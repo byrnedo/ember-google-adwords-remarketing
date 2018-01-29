@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 window.dataLayer = window.dataLayer || [];
 
-window.gtag = function(){window.dataLayer.push(arguments)};
+window.gtag = window.gtag || function(){window.dataLayer.push(arguments)};
 
 export default Ember.Service.extend({
   // overridden in app extension
@@ -30,6 +30,10 @@ export default Ember.Service.extend({
 
   setConfig(id, opts) {
     window.gtag('config', id, opts)
+  },
+
+  getDataLayer(){
+    return window.dataLayer();
   },
 
   trackEvent(name, sendTo, extraAttrs) {
